@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/etNomePonto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome do Ponto Turístico" />
+
+    <EditText
+        android:id="@+id/etRaioPonto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Raio em metros (ex: 200)"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>
