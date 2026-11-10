@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+        <color name="cor_primaria">#1E88E5</color>        <!-- Azul clássico -->
+        <color name="cor_primaria_escura">#1565C0</color>
+        <color name="cor_acento">#26A69A</color>          <!-- Verde água suave -->
+        <color name="fundo_app">#F4F6F8</color>           <!-- Cinza bem claro -->
+        <color name="branco">#FFFFFF</color>
+        <color name="texto_principal">#212121</color>
+        <color name="texto_secundario">#757575</color>
+        <color name="borda_caixa">#D0D7DE</color>
 </resources>

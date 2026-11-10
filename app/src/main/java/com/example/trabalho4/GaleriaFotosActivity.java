@@ -2,6 +2,8 @@ package com.example.trabalho4;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,11 +41,8 @@ public class GaleriaFotosActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public FotoVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                    ImageView iv = new ImageView(parent.getContext());
-                    iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 320));
-                    iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv.setPadding(4, 4, 4, 4);
-                    return new FotoVH(iv);
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_foto, parent, false);
+                    return new FotoVH(view);
                 }
 
                 @Override
@@ -63,9 +62,9 @@ public class GaleriaFotosActivity extends AppCompatActivity {
 
     static class FotoVH extends RecyclerView.ViewHolder {
         ImageView imageView;
-        FotoVH(@NonNull ImageView itemView) {
+        FotoVH(@NonNull View itemView) {
             super(itemView);
-            this.imageView = itemView;
+            this.imageView = itemView.findViewById(R.id.ivFotoItem);
         }
     }
 }

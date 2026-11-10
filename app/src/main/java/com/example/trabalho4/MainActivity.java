@@ -176,8 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirDialogoNovoPonto(Location loc) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Novo Ponto Turístico");
-        builder.setMessage("Você está fora de qualquer ponto turístico cadastrado. Deseja registrar este local?");
+        builder.setTitle("Cadastrar Novo Ponto");
 
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_novo_ponto, null);
         EditText etNome = v.findViewById(R.id.etNomePonto);
