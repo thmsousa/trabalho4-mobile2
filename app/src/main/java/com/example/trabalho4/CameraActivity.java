@@ -68,20 +68,27 @@ public class CameraActivity extends AppCompatActivity {
             new ImageCapture.OnImageSavedCallback() {
                 @Override
                 public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                    String uri = String.valueOf(outputFileResults.getSavedUri());
+                    android.net.Uri savedUri = outputFileResults.getSavedUri();
+                    if (savedUri != null) {
+                        String uriString = savedUri.toString();
 
-                    PontoTuristico ponto = DadosApp.getInstance().getPontoPorIndice(pontoIndex);
-                    if (ponto != null) {
-                        ponto.adicionarFoto(uri);
+                        PontoTuristico ponto = DadosApp.getInstance().getPontoPorIndice(pontoIndex);
+                        if (ponto != null) {
+                            ponto.adicionarFoto(uriString);
+                        }
                     }
 
-                    Toast.makeText(CameraActivity.this, "Salvo em: " + outputFileResults.getSavedUri(), Toast.LENGTH_SHORT).show();
-                    finish();
+                    runOnUiThread(() -> {
+                        Toast.makeText(CameraActivity.this, "Salvo com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
                 }
 
                 @Override
                 public void onError(@NonNull ImageCaptureException exception) {
-                    Toast.makeText(CameraActivity.this, "Erro ao tentar salvar", Toast.LENGTH_SHORT).show();
+                    runOnUiThread(() -> {
+                        Toast.makeText(CameraActivity.this, "Erro ao tentar salvar", Toast.LENGTH_SHORT).show();
+                    });
                     exception.printStackTrace();
                 }
             };

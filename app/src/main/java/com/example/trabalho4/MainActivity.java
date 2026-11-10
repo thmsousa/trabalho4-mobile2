@@ -84,28 +84,7 @@ public class MainActivity extends AppCompatActivity {
             PontoTuristico ponto = lista.get(i);
             final int indexPonto = i;
 
-            // Slide 7 do OSMBonusPack
-            Marker marcador = new Marker(map);
-            marcador.setPosition(ponto.getGeoPoint());
-            marcador.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            marcador.setTitle(ponto.getNome());
-            marcador.setSnippet("Raio: " + ponto.getRaioMetros() + "m (Toque para ver fotos)");
-
-            // Usa o marcador do drawable (ou ícone padrão se não houver)
-            try {
-                marcador.setIcon(ContextCompat.getDrawable(this, R.drawable.marcador_vetor));
-            } catch (Exception ignored) {}
-
-            marcador.setOnMarkerClickListener((marker, mapView) -> {
-                Intent intent = new Intent(MainActivity.this, GaleriaFotosActivity.class);
-                intent.putExtra("PONTO_INDEX", indexPonto);
-                startActivity(intent);
-                return true;
-            });
-
-            map.getOverlays().add(marcador);
-
-            // Slide 9 do OSMBonusPack: Círculo de raio
+            // 1. ADICIONA O POLÍGONO PRIMEIRO (Fica atrás, sem bloquear os cliques)
             Polygon poligono = new Polygon(map);
             poligono.setFillColor(0x330088FF);
             poligono.setStrokeColor(Color.RED);
@@ -113,6 +92,37 @@ public class MainActivity extends AppCompatActivity {
             List<GeoPoint> pontosDoCirculo = Polygon.pointsAsCircle(ponto.getGeoPoint(), ponto.getRaioMetros());
             poligono.setPoints(pontosDoCirculo);
             map.getOverlays().add(poligono);
+
+            // 2. CRIA E CONFIGURA O MARCADOR
+            Marker marcador = new Marker(map);
+            marcador.setPosition(ponto.getGeoPoint());
+            marcador.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marcador.setTitle(ponto.getNome());
+
+            // Remove o balão cinza
+            marcador.setInfoWindow(null);
+
+            // Define tamanho mínimo de 48dp para facilitar o toque na tela
+            try {
+                android.graphics.drawable.Drawable icone = ContextCompat.getDrawable(this, R.drawable.marcador_vetor);
+                if (icone != null) {
+                    float densidade = getResources().getDisplayMetrics().density;
+                    int tamanhoPx = (int) (48 * densidade);
+                    icone.setBounds(0, 0, tamanhoPx, tamanhoPx);
+                    marcador.setIcon(icone);
+                }
+            } catch (Exception ignored) {}
+
+            // 3. EVENTO DE TOQUE DO MARCADOR
+            marcador.setOnMarkerClickListener((marker, mapView) -> {
+                Intent intent = new Intent(MainActivity.this, GaleriaFotosActivity.class);
+                intent.putExtra("PONTO_INDEX", indexPonto);
+                startActivity(intent);
+                return true;
+            });
+
+            // 4. ADICIONA O MARCADOR POR ÚLTIMO (Fica na camada do topo)
+            map.getOverlays().add(marcador);
         }
 
         map.invalidate();
